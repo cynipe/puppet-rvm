@@ -12,10 +12,11 @@ class rvm::passenger::apache::centos::post(
 ) {
   exec {
     'passenger-install-apache2-module':
-      command   => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
-      creates   => "${rvm::passenger::apache::gempath}/passenger-${rvm::passenger::apache::version}/ext/apache2/mod_passenger.so",
-      logoutput => 'on_failure',
-      require   => [Rvm_gem['passenger'], Package['httpd','httpd-devel','mod_ssl']];
+      command      => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
+      creates      => "${rvm::passenger::apache::gempath}/passenger-${rvm::passenger::apache::version}/ext/apache2/mod_passenger.so",
+      logoutput    => 'on_failure',
+      environments => 'HOME=/root',
+      require      => [Rvm_gem['passenger'], Package['httpd','httpd-devel','mod_ssl']];
   }
 
   file {
